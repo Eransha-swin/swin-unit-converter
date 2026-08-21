@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="ConverterCore/ConverterCore.csproj" />
+  <Project Path="UnitConverterApp/UnitConverterApp.csproj" />
+  <Project Path="UnitConverterSetup/UnitConverterSetup.wixproj">
+    <Platform Project="x86" />
+    <Build />
+  </Project>
+</Solution>

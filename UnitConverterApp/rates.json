@@ -1,0 +1,9 @@
+﻿{
+	"Rates": {
+		"Metres": 1.0,
+		"Kilometres": 1000.0,
+		"Feet": 0.3048,
+		"Miles": 1609.344,
+		"Inches": 0.0254
+	}
+}

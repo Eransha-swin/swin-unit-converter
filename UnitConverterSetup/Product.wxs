@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*"
+			 Name="Swinburne Unit Converter"
+			 Language="1033"
+			 Version="1.0.0.0"
+			 Manufacturer="Eransha Fernando"
+			 UpgradeCode="F9496221-2B7B-484C-8BF5-10828E55C218">
+
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="SwinUnitConverter" />
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="AppMenuFolder" Name="Swinburne Unit Converter" />
+			</Directory>
+		</Directory>
+
+		<DirectoryRef Id="INSTALLFOLDER">
+			<Component Id="MainExecutable" Guid="*">
+				<File Id="AppExe"
+					  Source="$(var.UnitConverterApp.TargetPath)"
+					  KeyPath="yes" />
+			</Component>
+
+			<Component Id="CoreLibrary" Guid="*">
+				<File Id="ConverterCoreDll"
+					  Source="$(var.UnitConverterApp.TargetDir)ConverterCore.dll"
+					  KeyPath="yes" />
+			</Component>
+
+			<Component Id="JsonLibrary" Guid="*">
+				<File Id="NewtonsoftJsonDll"
+					  Source="$(var.UnitConverterApp.TargetDir)Newtonsoft.Json.dll"
+					  KeyPath="yes" />
+			</Component>
+
+			<Component Id="RateData" Guid="*">
+				<File Id="RatesJson"
+					  Source="$(var.UnitConverterApp.TargetDir)rates.json"
+					  KeyPath="yes" />
+			</Component>
+
+			<Component Id="AppConfig" Guid="*">
+				<File Id="ExeConfig"
+					  Source="$(var.UnitConverterApp.TargetDir)UnitConverterApp.exe.config"
+					  KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="AppMenuFolder">
+			<Component Id="StartMenuShortcut" Guid="*">
+				<Shortcut Id="AppShortcut"
+						  Name="Swinburne Unit Converter"
+						  Target="[INSTALLFOLDER]UnitConverterApp.exe"
+						  WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemoveAppMenuFolder" On="uninstall" />
+				<RegistryValue Root="HKCU"
+							   Key="Software\SwinUnitConverter"
+							   Name="installed"
+							   Type="integer"
+							   Value="1"
+							   KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<Feature Id="ProductFeature" Title="Swinburne Unit Converter" Level="1">
+			<ComponentRef Id="MainExecutable" />
+			<ComponentRef Id="CoreLibrary" />
+			<ComponentRef Id="JsonLibrary" />
+			<ComponentRef Id="RateData" />
+			<ComponentRef Id="AppConfig" />
+			<ComponentRef Id="StartMenuShortcut" />
+		</Feature>
+	</Product>
+</Wix>
